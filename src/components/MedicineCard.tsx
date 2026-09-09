@@ -35,36 +35,36 @@ export default function MedicineCard({ medicine, onOpenGenericModal }: MedicineC
   const isOutOfStock = medicine.stockQty <= 0;
 
   return (
-    <div className="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between">
+    <div className="group relative bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm hover:shadow-xl hover:border-emerald-500/60 transition-all duration-300 flex flex-col justify-between">
       {/* Top Badges */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex flex-wrap items-center gap-1.5">
           {medicine.requiresPrescription ? (
-            <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 px-2 py-0.5 rounded-md border border-red-200 dark:border-red-900">
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider bg-red-50 text-red-600 px-2 py-0.5 rounded-md border border-red-200">
               <FileText className="w-3 h-3" />
               Rx Required
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 text-[11px] font-medium bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-900">
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">
               <ShieldCheck className="w-3 h-3" />
               OTC
             </span>
           )}
 
           {medicine.category === 'chronic_diabetes' && (
-            <span className="text-[10px] font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-800">
+            <span className="text-[10px] font-semibold bg-amber-50 text-amber-800 px-1.5 py-0.5 rounded border border-amber-200">
               Diabetes
             </span>
           )}
           {medicine.category === 'chronic_bp' && (
-            <span className="text-[10px] font-semibold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 px-1.5 py-0.5 rounded border border-rose-200 dark:border-rose-800">
+            <span className="text-[10px] font-semibold bg-rose-50 text-rose-800 px-1.5 py-0.5 rounded border border-rose-200">
               Cardio/BP
             </span>
           )}
         </div>
 
         {discountPercent > 0 && (
-          <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full">
+          <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">
             {discountPercent}% OFF
           </span>
         )}

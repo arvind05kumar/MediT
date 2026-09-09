@@ -59,25 +59,25 @@ export default function DeliveryPartnerPage() {
   const totalEarnings = completedCount * 45 + emergencyCount * 25 + 550; // base mock
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between">
       <div>
         {/* Header */}
-        <header className="bg-slate-900/90 border-b border-slate-800 p-4 sticky top-[37px] z-40 backdrop-blur">
+        <header className="bg-white border-b border-slate-200 p-4 sticky top-[37px] z-40 backdrop-blur shadow-sm">
           <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-amber-500 text-slate-950 font-black flex items-center justify-center">
-                <Bike className="w-6 h-6" />
+              <div className="p-2.5 rounded-2xl bg-amber-500 text-slate-950 font-black flex items-center justify-center shadow-md shadow-amber-500/20">
+                <Bike className="w-6 h-6 text-slate-900" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="font-extrabold text-base sm:text-lg text-white">
+                  <h1 className="font-extrabold text-base sm:text-lg text-slate-900">
                     MediT Express Partner
                   </h1>
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-300">
                     Online • GPS Active
                   </span>
                 </div>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   Rider: Vikram Singh (DL-104) • Partner ID: #MED-DEL-99
                 </p>
               </div>
@@ -85,7 +85,7 @@ export default function DeliveryPartnerPage() {
 
             <Link
               href="/"
-              className="text-xs font-semibold bg-white/10 hover:bg-white/20 text-slate-200 px-3 py-1.5 rounded-xl transition"
+              className="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition border border-slate-200 shadow-sm"
             >
               Switch to Customer App →
             </Link>
@@ -94,45 +94,45 @@ export default function DeliveryPartnerPage() {
 
         <main className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
           {/* Driver Stats & Earnings Ribbon */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
-              <span className="text-xs font-bold text-slate-400">Today&apos;s Earnings</span>
-              <p className="text-2xl font-black text-emerald-400 mt-2">₹{totalEarnings}</p>
-              <span className="text-[10px] text-emerald-500/80 mt-1">Includes +₹25 Emergency Surge</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+              <span className="text-xs font-bold text-slate-500">Today&apos;s Earnings</span>
+              <p className="text-2xl font-black text-emerald-600 mt-2">₹{totalEarnings}</p>
+              <span className="text-[10px] text-emerald-700 mt-1">Includes +₹25 Emergency Surge</span>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
-              <span className="text-xs font-bold text-slate-400">Deliveries Done</span>
-              <p className="text-2xl font-black text-white mt-2">{completedCount + 12}</p>
-              <span className="text-[10px] text-slate-400 mt-1">100% On-Time SLA</span>
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+              <span className="text-xs font-bold text-slate-500">Deliveries Done</span>
+              <p className="text-2xl font-black text-slate-900 mt-2">{completedCount + 12}</p>
+              <span className="text-[10px] text-slate-500 mt-1">100% On-Time SLA</span>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
-              <span className="text-xs font-bold text-slate-400">Active Queue</span>
-              <p className="text-2xl font-black text-amber-400 mt-2">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+              <span className="text-xs font-bold text-slate-500">Active Queue</span>
+              <p className="text-2xl font-black text-amber-600 mt-2">
                 {orders.filter((o) => o.status !== 'delivered').length} Orders
               </p>
-              <span className="text-[10px] text-amber-300/80 mt-1">
+              <span className="text-[10px] text-amber-700 mt-1">
                 {orders.filter((o) => o.deliveryType === 'emergency' && o.status !== 'delivered').length} High Priority
               </span>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
-              <span className="text-xs font-bold text-slate-400">Rider Rating</span>
-              <p className="text-2xl font-black text-cyan-400 mt-2">4.95 ⭐</p>
-              <span className="text-[10px] text-cyan-300/80 mt-1">Top Tier Partner</span>
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+              <span className="text-xs font-bold text-slate-500">Rider Rating</span>
+              <p className="text-2xl font-black text-cyan-700 mt-2">4.95 ⭐</p>
+              <span className="text-[10px] text-cyan-800 mt-1">Top Tier Partner</span>
             </div>
           </div>
 
           {/* Filter Bar */}
           <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-2 bg-slate-900 p-1 rounded-2xl border border-slate-800 text-xs">
+            <div className="flex items-center gap-2 bg-white p-1 rounded-2xl border border-slate-200 text-xs shadow-sm">
               <button
                 onClick={() => setActiveFilter('active')}
                 className={`px-3 py-1.5 rounded-xl font-bold transition ${
                   activeFilter === 'active'
-                    ? 'bg-amber-600 text-white shadow'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-amber-500 text-slate-950 shadow'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Active Tasks
@@ -142,10 +142,10 @@ export default function DeliveryPartnerPage() {
                 className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1 ${
                   activeFilter === 'emergency'
                     ? 'bg-red-600 text-white shadow'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <Zap className="w-3.5 h-3.5 fill-red-400" />
+                <Zap className="w-3.5 h-3.5 fill-red-500" />
                 Emergency Priority
               </button>
               <button
@@ -153,7 +153,7 @@ export default function DeliveryPartnerPage() {
                 className={`px-3 py-1.5 rounded-xl font-bold transition ${
                   activeFilter === 'completed'
                     ? 'bg-emerald-600 text-white shadow'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Completed
@@ -162,15 +162,15 @@ export default function DeliveryPartnerPage() {
                 onClick={() => setActiveFilter('all')}
                 className={`px-3 py-1.5 rounded-xl font-bold transition ${
                   activeFilter === 'all'
-                    ? 'bg-slate-700 text-white shadow'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-slate-800 text-white shadow'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 All Orders ({orders.length})
               </button>
             </div>
 
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500">
               ⚡ Status changes synchronize live to customer tracking
             </p>
           </div>
@@ -178,9 +178,9 @@ export default function DeliveryPartnerPage() {
           {/* Orders List */}
           <div className="space-y-4">
             {sortedOrders.length === 0 ? (
-              <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-12 text-center">
-                <Bike className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-                <h3 className="text-base font-bold text-slate-300">No orders in this queue</h3>
+              <div className="bg-white border border-slate-200 rounded-3xl p-12 text-center shadow-sm">
+                <Bike className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+                <h3 className="text-base font-bold text-slate-800">No orders in this queue</h3>
                 <p className="text-xs text-slate-500 mt-1">
                   New orders will automatically appear when placed by customers.
                 </p>
@@ -193,30 +193,30 @@ export default function DeliveryPartnerPage() {
                 return (
                   <div
                     key={order.id}
-                    className={`rounded-3xl border p-5 sm:p-6 transition-all ${
+                    className={`rounded-3xl border p-5 sm:p-6 transition-all shadow-sm ${
                       isEmergency && !isDelivered
-                        ? 'bg-red-950/20 border-red-500/80 shadow-lg shadow-red-950/50'
-                        : 'bg-slate-900/90 border-slate-800'
+                        ? 'bg-red-50/50 border-red-300 shadow-md shadow-red-100'
+                        : 'bg-white border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     {/* Header */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                    <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
                       <div className="flex items-center gap-3">
-                        <span className="font-extrabold text-lg text-white">#{order.id}</span>
+                        <span className="font-extrabold text-lg text-slate-900">#{order.id}</span>
                         {isEmergency && (
-                          <span className="inline-flex items-center gap-1 text-xs font-black bg-red-600 text-white px-2.5 py-0.5 rounded-full animate-pulse shadow-md shadow-red-600/40">
+                          <span className="inline-flex items-center gap-1 text-xs font-black bg-red-600 text-white px-2.5 py-0.5 rounded-full animate-pulse shadow-md shadow-red-500/30">
                             <Zap className="w-3.5 h-3.5 fill-white" />
                             EMERGENCY ORDER (TOP PRIORITY)
                           </span>
                         )}
-                        <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-medium">
+                        <span className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-medium border border-slate-200">
                           {order.items.length} Items • ₹{order.totalAmount.toFixed(2)}
                         </span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-400">Current State:</span>
-                        <span className="text-xs font-bold uppercase px-2.5 py-1 rounded-xl bg-slate-800 text-amber-400 border border-slate-700">
+                        <span className="text-xs text-slate-500">Current State:</span>
+                        <span className="text-xs font-bold uppercase px-2.5 py-1 rounded-xl bg-amber-50 text-amber-800 border border-amber-200">
                           {order.status.replace(/_/g, ' ')}
                         </span>
                       </div>
@@ -225,48 +225,48 @@ export default function DeliveryPartnerPage() {
                     {/* Route Details: Pickup & Drop */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                       {/* Pickup Pharmacy */}
-                      <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-1.5">
+                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
                         <div className="flex items-center justify-between text-xs">
-                          <span className="text-indigo-400 font-bold flex items-center gap-1.5">
+                          <span className="text-indigo-700 font-bold flex items-center gap-1.5">
                             <Building2 className="w-4 h-4" />
                             1. Pickup Node (Pharmacy)
                           </span>
-                          <span className="text-[11px] text-slate-400">Ready for dispatch</span>
+                          <span className="text-[11px] text-slate-500">Ready for dispatch</span>
                         </div>
-                        <h4 className="font-bold text-sm text-white">{order.assignedPharmacyName}</h4>
-                        <p className="text-xs text-slate-400">
+                        <h4 className="font-bold text-sm text-slate-900">{order.assignedPharmacyName}</h4>
+                        <p className="text-xs text-slate-500">
                           Connaught Place / Defence Colony hub node
                         </p>
                       </div>
 
                       {/* Drop Customer */}
-                      <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-1.5">
+                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
                         <div className="flex items-center justify-between text-xs">
-                          <span className="text-emerald-400 font-bold flex items-center gap-1.5">
+                          <span className="text-emerald-700 font-bold flex items-center gap-1.5">
                             <Home className="w-4 h-4" />
                             2. Delivery Destination
                           </span>
                           <a
                             href={`tel:${order.customerPhone}`}
-                            className="text-[11px] text-emerald-400 hover:underline flex items-center gap-1"
+                            className="text-[11px] text-emerald-700 font-semibold hover:underline flex items-center gap-1"
                           >
                             <Phone className="w-3 h-3" /> Call Customer
                           </a>
                         </div>
-                        <h4 className="font-bold text-sm text-white">{order.customerName}</h4>
-                        <p className="text-xs text-slate-400">{order.deliveryAddress}</p>
+                        <h4 className="font-bold text-sm text-slate-900">{order.customerName}</h4>
+                        <p className="text-xs text-slate-500">{order.deliveryAddress}</p>
                       </div>
                     </div>
 
                     {/* Items List */}
-                    <div className="p-3 rounded-2xl bg-slate-950/40 border border-slate-800/80 text-xs text-slate-300">
-                      <span className="font-semibold text-slate-400">Package Contents:</span>{' '}
+                    <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+                      <span className="font-semibold text-slate-900">Package Contents:</span>{' '}
                       {order.items.map((i) => `${i.quantity}x ${i.medicine.name}`).join(', ')}
                     </div>
 
                     {/* Action Step Buttons for Rider */}
-                    <div className="mt-4 pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
-                      <span className="text-xs text-slate-400 font-medium">
+                    <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                      <span className="text-xs text-slate-500 font-medium">
                         Advance delivery progress:
                       </span>
 
@@ -282,7 +282,7 @@ export default function DeliveryPartnerPage() {
                                   'Rider collected package from pharmacy node.'
                                 )
                               }
-                              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5"
+                              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5"
                             >
                               <Bike className="w-4 h-4" />
                               <span>Picked Up from Pharmacy</span>
@@ -298,7 +298,7 @@ export default function DeliveryPartnerPage() {
                                 'Rider is on the way to customer address.'
                               )
                             }
-                            className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5"
+                            className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5"
                           >
                             <MapPin className="w-4 h-4" />
                             <span>Out for Delivery</span>
@@ -314,7 +314,7 @@ export default function DeliveryPartnerPage() {
                                 'Order successfully delivered to customer.'
                               )
                             }
-                            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5"
+                            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5"
                           >
                             <CheckCircle2 className="w-4 h-4" />
                             <span>Mark as Delivered ✓</span>
@@ -322,8 +322,8 @@ export default function DeliveryPartnerPage() {
                         )}
 
                         {isDelivered && (
-                          <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-bold bg-emerald-950/60 px-3 py-1.5 rounded-xl border border-emerald-800">
-                            <CheckCircle2 className="w-4 h-4" />
+                          <div className="flex items-center gap-1.5 text-xs text-emerald-800 font-bold bg-emerald-100 px-3 py-1.5 rounded-xl border border-emerald-300">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-700" />
                             <span>Delivery Completed</span>
                           </div>
                         )}

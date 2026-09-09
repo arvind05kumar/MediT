@@ -3,6 +3,7 @@ import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import BannerSIH from '@/components/BannerSIH';
 import { FontProvider } from '@/components/FontProvider';
+import SplashHeartScreen from '@/components/SplashHeartScreen';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,9 +27,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} dark`}>
-      <body className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans antialiased text-slate-900 dark:text-slate-100 flex flex-col">
+    <html lang="en" className={`${inter.variable} ${outfit.variable} light`}>
+      <body className="min-h-screen bg-slate-50 font-sans antialiased text-slate-900 flex flex-col">
         <FontProvider>
+          <SplashHeartScreen />
           <BannerSIH />
           {children}
         </FontProvider>
