@@ -109,30 +109,30 @@ export default function HomePage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col justify-between">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col justify-between">
       <div>
         <Navbar onSearchChange={setSearchQuery} searchQuery={searchQuery} />
 
         {/* Hero Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-4">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-6 sm:p-10 shadow-2xl border border-emerald-500/20">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white p-6 sm:p-10 shadow-xl border border-emerald-400/30">
             {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl space-y-4">
-              <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/40 px-3 py-1 rounded-full text-xs font-bold text-emerald-300">
-                <Zap className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
+              <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur px-3 py-1 rounded-full text-xs font-black text-white shadow-sm">
+                <Zap className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
                 <span>10-Minute Express Emergency Medicine Dispatch</span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+              <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight drop-shadow-sm">
                 AI-Verified Medicines, <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-                  Delivered in Minutes.
+                <span className="text-emerald-100">
+                  Delivered to Your Doorstep.
                 </span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
+              <p className="text-xs sm:text-sm text-emerald-50 leading-relaxed max-w-xl font-medium">
                 Upload handwritten doctor prescriptions for instant <strong>Gemini Vision OCR</strong> extraction, automatic <strong>drug interaction checks</strong>, and <strong>Jan Aushadhi generic cost savings</strong>.
               </p>
 
@@ -140,14 +140,14 @@ export default function HomePage() {
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <button
                   onClick={() => setIsRxModalOpen(true)}
-                  className="px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs sm:text-sm shadow-xl hover:shadow-emerald-500/40 transition duration-200 flex items-center gap-2"
+                  className="px-5 py-3 rounded-2xl bg-white text-emerald-900 hover:bg-emerald-50 font-black text-xs sm:text-sm shadow-xl hover:shadow-2xl transition duration-200 flex items-center gap-2"
                 >
-                  <Upload className="w-4 h-4" />
+                  <Upload className="w-4 h-4 text-emerald-600" />
                   <span>Upload Prescription (AI OCR)</span>
                 </button>
 
-                <div className="flex items-center gap-2 text-xs text-slate-300 bg-white/10 backdrop-blur px-3 py-2.5 rounded-2xl border border-white/10">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-2 text-xs text-white bg-black/15 backdrop-blur px-3.5 py-2.5 rounded-2xl border border-white/20 font-bold">
+                  <ShieldCheck className="w-4 h-4 text-emerald-200 shrink-0" />
                   <span>Pharmacist Verified (Human-in-the-Loop)</span>
                 </div>
               </div>
@@ -163,10 +163,10 @@ export default function HomePage() {
         {/* Category Filter Chips */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-3">
           <div className="flex items-center justify-between gap-4 mb-3">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <h2 className="text-sm font-extrabold uppercase tracking-wider text-slate-700">
               Browse Categories
             </h2>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-slate-500 font-bold">
               Showing {filteredMedicines.length} medicines
             </span>
           </div>
@@ -179,13 +179,13 @@ export default function HomePage() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`whitespace-nowrap px-4 py-2.5 rounded-2xl text-xs font-bold transition flex items-center gap-2 border ${
+                  className={`whitespace-nowrap px-4 py-2.5 rounded-2xl text-xs font-bold transition flex items-center gap-2 border shadow-sm ${
                     isSelected
                       ? 'bg-emerald-600 text-white border-emerald-600 shadow-md shadow-emerald-600/20'
-                      : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300'
+                      : 'bg-[#f0fdf4] text-emerald-950 border-emerald-200/90 hover:bg-[#e1f9ea]'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-3.5 h-3.5 text-emerald-700" />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -196,10 +196,10 @@ export default function HomePage() {
         {/* Medicine Product Grid */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           {filteredMedicines.length === 0 ? (
-            <div className="py-16 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8">
+            <div className="py-16 text-center bg-[#f0fdf4] rounded-3xl border border-emerald-200 p-8 shadow-sm">
               <Stethoscope className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-              <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">No medicines found</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
+              <h3 className="text-lg font-bold text-slate-800">No medicines found</h3>
+              <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                 Try searching with a different salt name (e.g. Paracetamol, Metformin, Telmisartan) or select another category.
               </p>
               <button
@@ -227,14 +227,14 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-12 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+      <footer className="mt-12 bg-slate-50 border-t border-slate-200 py-8 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
           <div className="flex items-center gap-2">
             <HeartPulse className="w-5 h-5 text-emerald-600" />
-            <span className="font-bold text-slate-800 dark:text-slate-200">MediT Delivery Network</span>
+            <span className="font-extrabold text-slate-900">MediT Delivery Network</span>
             <span>• Smart India Hackathon Prototype</span>
           </div>
-          <p className="text-center sm:text-right">
+          <p className="text-center sm:text-right font-medium">
             ⚠️ Disclaimer: MediT is a demonstration prototype. Prescriptions verified by licensed pharmacists.
           </p>
         </div>
@@ -255,31 +255,31 @@ export default function HomePage() {
       {/* Generic Substitute Modal */}
       {activeGenericMed && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-indigo-600" />
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">
+                <h3 className="font-bold text-base text-slate-900">
                   AI Generic Alternative Finder
                 </h3>
               </div>
               <button
                 onClick={() => setActiveGenericMed(null)}
-                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400"
+                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs">
-              <span className="text-[10px] font-bold uppercase text-slate-400">Branded Product</span>
-              <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200 mt-0.5">
+            <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs">
+              <span className="text-[10px] font-bold uppercase text-slate-500">Branded Product</span>
+              <h4 className="font-bold text-sm text-slate-900 mt-0.5">
                 {activeGenericMed.name}
               </h4>
-              <p className="text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-slate-600 mt-0.5">
                 Salt: {activeGenericMed.saltComposition}
               </p>
-              <p className="font-extrabold text-slate-900 dark:text-white mt-1">
+              <p className="font-extrabold text-slate-900 mt-1">
                 MRP: ₹{activeGenericMed.price.toFixed(2)}
               </p>
             </div>
@@ -290,37 +290,37 @@ export default function HomePage() {
                 <p>Gemini AI identifying bioequivalent Jan Aushadhi generic formulation...</p>
               </div>
             ) : genericData ? (
-              <div className="bg-indigo-50 dark:bg-indigo-950/40 p-4 rounded-2xl border-2 border-indigo-300 dark:border-indigo-800 space-y-3">
+              <div className="bg-indigo-50 p-4 rounded-2xl border-2 border-indigo-200 space-y-3">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-[10px] font-bold uppercase text-indigo-700 dark:text-indigo-300 bg-indigo-200 dark:bg-indigo-900 px-2 py-0.5 rounded">
+                    <span className="text-[10px] font-bold uppercase text-indigo-800 bg-indigo-200 px-2 py-0.5 rounded">
                       Generic Equivalent
                     </span>
-                    <h4 className="font-bold text-base text-indigo-950 dark:text-indigo-100 mt-1">
+                    <h4 className="font-bold text-base text-indigo-950 mt-1">
                       {genericData.genericName}
                     </h4>
-                    <p className="text-xs text-indigo-800 dark:text-indigo-300 mt-0.5">
+                    <p className="text-xs text-indigo-800 mt-0.5">
                       Same Salt Composition & Bioavailability
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xl font-black text-indigo-700 dark:text-indigo-300">
+                    <p className="text-xl font-black text-indigo-800">
                       ₹{genericData.genericPrice.toFixed(2)}
                     </p>
-                    <span className="text-[11px] font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-950 px-2 py-0.5 rounded-full">
+                    <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
                       Save ₹{genericData.savingsAmount.toFixed(2)} ({genericData.savingsPercentage}%)
                     </span>
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-600 dark:text-slate-300">
+                <p className="text-xs text-slate-700">
                   Jan Aushadhi and generic equivalents have identical therapeutic efficacy as branded medicines at a fraction of the cost.
                 </p>
 
                 <div className="pt-2 flex items-center justify-end gap-2">
                   <button
                     onClick={() => setActiveGenericMed(null)}
-                    className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300"
+                    className="px-4 py-2 text-xs font-semibold text-slate-600"
                   >
                     Keep Branded
                   </button>

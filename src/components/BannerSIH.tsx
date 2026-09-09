@@ -20,18 +20,18 @@ export default function BannerSIH() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white border-b border-emerald-500/30 text-xs sm:text-sm shadow-md sticky top-0 z-50">
+    <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white border-b border-emerald-600/40 text-xs sm:text-sm shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-3">
         {/* Left: Hackathon info */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-300 font-semibold px-2.5 py-0.5 rounded-full border border-emerald-500/40 text-xs">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-spin" style={{ animationDuration: '6s' }} />
+          <span className="inline-flex items-center gap-1 bg-white/20 text-white font-bold px-2.5 py-0.5 rounded-full border border-white/30 text-xs">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin" style={{ animationDuration: '6s' }} />
             SIH 2026 Prototype
           </span>
-          <span className="text-slate-300 hidden md:inline">
+          <span className="text-emerald-100 hidden md:inline font-medium">
             MediT: AI-Powered On-Demand Medicine Delivery with Multimodal Prescription OCR & Clinical Guardrails
           </span>
-          <span className="inline-flex items-center gap-1 bg-amber-500/20 text-amber-300 font-medium px-2 py-0.5 rounded text-xs border border-amber-500/30">
+          <span className="inline-flex items-center gap-1 bg-amber-400/20 text-amber-200 font-bold px-2 py-0.5 rounded text-xs border border-amber-300/30">
             <ShieldAlert className="w-3 h-3" />
             Prototype Demo Only
           </span>
@@ -39,13 +39,13 @@ export default function BannerSIH() {
 
         {/* Right: Quick Portal Switcher & Reset */}
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center bg-black/40 p-0.5 rounded-lg border border-white/10 text-xs font-medium">
+          <div className="flex items-center bg-black/20 p-0.5 rounded-xl border border-white/20 text-xs font-semibold">
             <Link
               href="/"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition-all ${
                 pathname === '/' || pathname === '/orders'
-                  ? 'bg-emerald-600 text-white font-semibold shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                  ? 'bg-white text-emerald-900 font-extrabold shadow-sm'
+                  : 'text-emerald-100 hover:text-white hover:bg-white/10'
               }`}
             >
               <User className="w-3.5 h-3.5" />
@@ -53,10 +53,10 @@ export default function BannerSIH() {
             </Link>
             <Link
               href="/delivery"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition-all ${
                 pathname.startsWith('/delivery')
-                  ? 'bg-amber-600 text-white font-semibold shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                  ? 'bg-amber-500 text-slate-950 font-extrabold shadow-sm'
+                  : 'text-emerald-100 hover:text-white hover:bg-white/10'
               }`}
             >
               <Bike className="w-3.5 h-3.5" />
@@ -64,10 +64,10 @@ export default function BannerSIH() {
             </Link>
             <Link
               href="/pharmacy-admin"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition-all ${
                 pathname.startsWith('/pharmacy-admin')
-                  ? 'bg-indigo-600 text-white font-semibold shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                  ? 'bg-indigo-600 text-white font-extrabold shadow-sm'
+                  : 'text-emerald-100 hover:text-white hover:bg-white/10'
               }`}
             >
               <Building2 className="w-3.5 h-3.5" />
@@ -78,11 +78,11 @@ export default function BannerSIH() {
           <button
             onClick={handleReset}
             title="Reset demo data to initial sample seed"
-            className="flex items-center gap-1 bg-white/10 hover:bg-white/20 text-slate-200 px-2 py-1 rounded-lg text-xs font-medium border border-white/10 transition"
+            className="flex items-center gap-1 bg-white/15 hover:bg-white/25 text-white px-2.5 py-1 rounded-xl text-xs font-bold border border-white/20 transition shadow-sm"
           >
             {resetMessage ? (
               <>
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-amber-300" />
                 <span>Reset!</span>
               </>
             ) : (
