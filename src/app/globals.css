@@ -56,3 +56,50 @@ h1, h2, h3, h4, h5, h6 {
 .animate-soft-pulse {
   animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* ==============================================================================
+   Elderly / Accessibility Large Font Scaling Mode
+   ============================================================================== */
+html.large-font-mode {
+  font-size: 118%;
+}
+
+html.large-font-mode * {
+  letter-spacing: 0.015em;
+}
+
+html.large-font-mode .text-\[10px\],
+html.large-font-mode .text-\[11px\],
+html.large-font-mode .text-xs {
+  font-size: 0.95rem !important;
+  line-height: 1.4rem !important;
+}
+
+html.large-font-mode .text-sm {
+  font-size: 1.1rem !important;
+  line-height: 1.6rem !important;
+}
+
+html.large-font-mode .text-base {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+}
+
+html.large-font-mode .text-lg {
+  font-size: 1.4rem !important;
+  line-height: 1.95rem !important;
+}
+
+html.large-font-mode .text-xl,
+html.large-font-mode .text-2xl,
+html.large-font-mode .text-3xl,
+html.large-font-mode .text-4xl {
+  font-size: 1.85rem !important;
+  line-height: 2.3rem !important;
+}
+
+html.large-font-mode input,
+html.large-font-mode button,
+html.large-font-mode select {
+  font-size: 1.05rem !important;
+}
