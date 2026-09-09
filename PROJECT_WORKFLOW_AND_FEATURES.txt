@@ -1,0 +1,297 @@
+================================================================================
+                    MEDIT — AI-POWERED MEDICINE DELIVERY PLATFORM
+              COMPLETE SYSTEM WORKFLOW, ARCHITECTURE & FEATURES GUIDE
+================================================================================
+Project: MediT (Smart India Hackathon 2026 Prototype)
+Author / User: Arvind Kumar
+Repository: https://github.com/arvind05kumar/MediT.git
+Technology Stack: Next.js 14+ (App Router), React 18, TypeScript, Tailwind CSS, 
+                  Google Gemini 1.5 Flash AI, Supabase PostgreSQL, Web Speech API.
+================================================================================
+
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1. EXECUTIVE OVERVIEW & VALUE PROPOSITION
+2. THREE SYNCHRONIZED USER PORTALS
+   2.1. Customer Web Application (/) & Order Radar (/orders)
+   2.2. Delivery Partner Portal (/delivery)
+   2.3. Pharmacy Admin & Compliance Console (/pharmacy-admin)
+3. CORE GEMINI AI ENGINES & ENDPOINTS
+   3.1. Multimodal Prescription OCR (/api/ai/read-prescription)
+   3.2. Automated Drug Interaction Checker (/api/ai/check-interactions)
+   3.3. Jan Aushadhi Generic Substitute Cost-Saver (/api/ai/generic-alternative)
+   3.4. 24/7 AI Health Chatbot - MediBot (/api/ai/chat)
+4. OFFERS, PRICING & COST SAVING MECHANISMS
+5. STEP-BY-STEP END-TO-END WORKFLOW (THE COMPLETE JOURNEY)
+6. HUMAN-IN-THE-LOOP COMPLIANCE & SAFETY SAFEGUARDS
+7. ACCESSIBILITY & UI/UX FEATURES (HEART INTRO & ELDERLY MODE)
+8. DATABASE ARCHITECTURE (SUPABASE SCHEMA)
+9. HOW TO RUN AND PRESENT THE PROTOTYPE
+================================================================================
+
+
+================================================================================
+1. EXECUTIVE OVERVIEW & VALUE PROPOSITION
+================================================================================
+MediT is an on-demand pharmaceutical logistics network designed to provide 
+instant medicine delivery (10-30 minutes) while strictly enforcing clinical 
+safety, doctor prescription validation, drug contraindication detection, and 
+massive cost reductions for patients through generic substitutes.
+
+Unlike standard grocery/food delivery apps, pharma delivery requires:
+- Reading complex and illegible handwritten doctor prescriptions.
+- Verifying drug-drug interactions before checkout to prevent medical accidents.
+- Ensuring a registered pharmacist verifies all scheduled drugs (Schedule H).
+- Providing affordable Jan Aushadhi generic bioequivalent alternatives.
+
+
+================================================================================
+2. THREE SYNCHRONIZED USER PORTALS
+================================================================================
+
+--------------------------------------------------------------------------------
+2.1. CUSTOMER WEB APP (Routes: `/` and `/orders`)
+--------------------------------------------------------------------------------
+Theme: Crisp Pure White background with Light Apple Green (#f0fdf4) interactive cards.
+
+Features:
+- Full-Page Heart & ECG Entry Animation: On first visit, a glowing 3D beating 
+  heart and animated ECG lifeline welcome the user, initializing AI vitals.
+- Voice-Enabled Search (Web Speech API): Free browser-native voice search 
+  supporting English (ENG) and Hindi (हिंदी).
+- Accessibility Large Font Mode (A+ Toggle): Dynamic 1.2x–1.4x global font 
+  scaling designed for senior citizens and visually impaired users.
+- Rich Categorized Catalogue:
+  * OTC & Fever (Paracetamol, Dolo 650, Digene, Combiflam, Electral)
+  * Chronic Diabetes (Glycomet-GP2 Forte, Januvia 100)
+  * Cardiac & Blood Pressure (Telma 40, Ecosprin 75)
+  * Antibiotics & Anti-infectives (Augmentin 625 Duo, Azithral 500)
+  * Baby Care (Sebamed Diaper Cream)
+  * Personal Care & Pain Relief (Volini Gel, Shelcal 500)
+  * Medical Devices (Omron BP Monitor, Accu-Chek Glucose Strips, Digital Thermometers)
+- Badges on Each Card:
+  * "Rx Required" (Red pill) vs "OTC" (Green pill)
+  * Salt Composition highlighted in dedicated clinical sub-panel
+  * "Generic available - Save ₹X" quick action button
+  * Discount percentage badge (e.g., 10% - 20% OFF)
+  * Live Stock Status indicator ("In Stock" vs "Out of Stock")
+- Prescription Upload Studio:
+  * Custom photo/camera upload + 1-Click sample presets (Dr. Verma Rx / Dr. Gupta Rx)
+  * Multimodal Gemini Vision OCR analysis showing doctor name, date, extracted 
+    medicines, dosages, and handwriting confidence percentages.
+  * Patient confirmation step before attaching to the order.
+- Interactive Slide-Out Cart:
+  * Mandatory Rx lock: Blocks checkout if cart has prescription medicines until Rx is attached.
+  * Real-time Drug Interaction Warnings banner with clinical explanation.
+  * 1-Click Generic Swap button to instantly reduce cart total.
+  * Delivery Priority Selector: Standard (₹30, 25 mins) vs Express Emergency (₹60, 10-15 mins).
+  * Address selector & Simulated Payment screen (UPI / Card / COD) with Confetti.
+- Chronic Auto-Refill Reminders:
+  * Automated recurring schedule calculator for chronic patients (BP/Diabetes).
+  * 1-Click Reorder button to immediately re-purchase the monthly pack.
+- Live GPS Delivery Radar (`/orders`):
+  * Interactive animated delivery map with moving rider icon.
+  * 6-stage real-time timeline (Placed -> Rx Verified -> Dispensed -> Picked Up -> Out for Delivery -> Delivered).
+  * Delivery partner direct call button & assigned pharmacy node details.
+- Floating 24/7 AI Health Chatbot (MediBot):
+  * Symptom triage, OTC recommendations, medical disclaimers, and 112 emergency hotline callout.
+
+--------------------------------------------------------------------------------
+2.2. DELIVERY PARTNER PORTAL (Route: `/delivery`)
+--------------------------------------------------------------------------------
+Theme: Clean light dashboard with high-contrast amber/emerald badges.
+
+Features:
+- Rider Profile: Vikram Singh (Rider #104, Partner ID: #MED-DEL-99).
+- Rider Stats & Earnings Summary:
+  * Today's earnings (Base pay + Emergency surge bonus of ₹25).
+  * Deliveries completed count and 100% On-Time SLA metric.
+  * Rider Rating: 4.95 ⭐.
+- Prioritized Task Queue:
+  * Filter by Active, Emergency Priority, Completed, or All.
+  * Emergency Orders highlighted in pulsing red at the very top.
+- Pickup & Delivery Cards:
+  * Pickup pharmacy node address + customer drop-off address with "Call Customer" link.
+- Step-by-Step Delivery Transition Buttons:
+  * "Picked Up from Pharmacy" ➔ "Out for Delivery" ➔ "Mark as Delivered ✓".
+  * Synchronizes instantaneously with the customer's live GPS radar screen!
+
+--------------------------------------------------------------------------------
+2.3. PHARMACY ADMIN & COMPLIANCE CONSOLE (Route: `/pharmacy-admin`)
+--------------------------------------------------------------------------------
+Theme: Professional clinical dashboard with multi-tab layout.
+
+Features:
+- Tab 1: Prescription Verification Queue (Human-in-the-Loop Safeguard)
+  * Side-by-side view: Original uploaded prescription image on the left vs 
+    Gemini Vision OCR extracted medicine entities on the right.
+  * Confidence rating per medicine (e.g. 94% match).
+  * Pharmacist clinical notes/audit trail input field.
+  * "Approve & Authorize Dispense" button (moves order to packing stage).
+  * "Flag / Request Clarification" button (halts order and alerts patient).
+- Tab 2: Inventory & SKU Management
+  * Live stock quantity controls.
+  * 1-Click "Mark Out of Stock" and "Restock (+50)" buttons.
+- Tab 3: Decentralized Multi-Pharmacy Mesh Routing
+  * Overview of all partner nodes (Apollo 24|7, MedPlus, Jan Aushadhi Kendra).
+  * Automated or manual order reassignment: if Pharmacy A lacks stock, reroute 
+    the order to Pharmacy B with one click.
+
+
+================================================================================
+3. CORE GEMINI AI ENGINES & BACKEND ENDPOINTS
+================================================================================
+
+--------------------------------------------------------------------------------
+3.1. MULTIMODAL PRESCRIPTION OCR (`POST /api/ai/read-prescription`)
+--------------------------------------------------------------------------------
+- Technology: Google Gemini 1.5 Flash Vision Multimodal API.
+- Prompt Configuration: `src/config/ai-prompts.ts` -> `PRESCRIPTION_OCR`.
+- Payload: `{ imageBase64: string, mimeType: string }`.
+- Capabilities: Reads doctor handwriting, identifies medicine names (e.g., Augmentin 625 Duo), 
+  strengths (625mg), dosage forms (Tablet), quantities (10 Tabs), dosage instructions 
+  ("1 tab twice daily for 5 days"), doctor registration details, and outputs a confidence score (0-100%).
+- Fallback: Contextual AI engine activates if no API key is supplied, ensuring demos never fail.
+
+--------------------------------------------------------------------------------
+3.2. AUTOMATED DRUG INTERACTION CHECKER (`POST /api/ai/check-interactions`)
+--------------------------------------------------------------------------------
+- Technology: Google Gemini 1.5 Flash Clinical Pharmacology System.
+- Payload: `{ cartMedicines: string[], userHistory: string[] }`.
+- Clinical Rules Checked:
+  * Blood Thinners (Ecosprin / Aspirin) + NSAIDs (Combiflam / Ibuprofen) -> High Risk GI Bleed Warning.
+  * ARB Antihypertensives (Telmisartan) + Potassium Supplements -> Hyperkalemia Risk.
+  * Oral Hypoglycemics (Metformin) + Multiple Anti-diabetic duplications.
+- Response Schema: `{ hasInteraction: boolean, warnings: [{ medicines: [], severity: 'High'|'Moderate'|'Low', explanation: '', recommendation: '' }] }`.
+
+--------------------------------------------------------------------------------
+3.3. JAN AUSHADHI GENERIC SUBSTITUTE FINDER (`POST /api/ai/generic-alternative`)
+--------------------------------------------------------------------------------
+- Technology: Indian Pharmacopoeia & Jan Aushadhi generic mapping model.
+- Payload: `{ brandName: string, saltComposition: string, price: number }`.
+- Output: Bioequivalent generic name, Jan Aushadhi price, and exact ₹ savings (up to 60-70% discount).
+- Example: Augmentin 625 Duo (₹204.50) -> Jan Aushadhi Amoxy-Clav 625 (₹85.00) -> Saves ₹119.50!
+
+--------------------------------------------------------------------------------
+3.4. 24/7 AI HEALTH CHATBOT - MEDIBOT (`POST /api/ai/chat`)
+--------------------------------------------------------------------------------
+- System Instruction: Empathetic clinical pharmacy assistant for Indian users.
+- Boundaries:
+  * Only gives guidance for minor, OTC symptoms (mild tension headache, acidity, cold, sore throat).
+  * Strict prohibition against prescribing Schedule H / controlled drugs.
+  * Mandatory disclaimer appended to every answer:
+    "⚠️ Disclaimer: This is not a substitute for professional medical advice. Consult a doctor for serious or worsening symptoms."
+  * Immediate emergency escalation for chest pain, shortness of breath, or trauma -> calls 112 / 108.
+
+
+================================================================================
+4. OFFERS, PRICING & COST SAVING MECHANISMS
+================================================================================
+1. Generic Substitute Savings: Patients can replace branded formulations with 
+   certified Jan Aushadhi generics with 1-click inside the cart, saving ₹50 to ₹250 per order.
+2. MRP Discounts: Pre-applied discounts (5% to 20% OFF) on all catalog items.
+3. Delivery Slot Tiers:
+   - Standard Delivery: ₹30 fee, 20-30 minute dispatch window.
+   - Express Emergency Delivery: ₹60 fee, top-queue priority, 10-15 minute siren dispatch.
+
+
+================================================================================
+5. STEP-BY-STEP END-TO-END WORKFLOW (THE COMPLETE DEMO JOURNEY)
+================================================================================
+
+Step 1: Website Entry & Vitals Check
+- User visits http://localhost:3000.
+- Full-screen Beating Heart and animated ECG pulse appear, running diagnostic progress.
+- Smoothly fades out and reveals the clean white customer app with light apple green tiles.
+
+Step 2: Medicine Search & Voice Assistant
+- User searches "Augmentin" or clicks the Mic icon to speak in Hindi/English ("Augmentin dikhao").
+- User adds "Augmentin 625 Duo" (Rx) and "Dolo 650" (OTC) to the cart.
+
+Step 3: Prescription Upload & Gemini OCR Extraction
+- User opens Cart -> Checkout is locked with a "Prescription Required" alert.
+- User clicks "Upload Prescription (AI OCR)".
+- User selects sample preset "Dr. Verma (Chest & Fever Rx)".
+- Gemini Vision OCR deciphers doctor handwriting, extracting Augmentin 625, Pan-D, Dolo 650 with 94% confidence.
+- User clicks "Confirm & Attach to Order".
+
+Step 4: AI Clinical Safeguards & Generic Savings
+- Cart automatically runs `/api/ai/check-interactions` against user history.
+- Generic substitute suggestion appears: "Save ₹119.50 with Jan Aushadhi generic".
+- User clicks "Swap & Save".
+- User chooses "Express Emergency" delivery slot and selects UPI payment.
+- User clicks "Place Order" -> Confetti celebration triggers and redirects to `/orders`.
+
+Step 5: Human-in-the-Loop Pharmacist Verification
+- Switch to Pharmacy Admin (`/pharmacy-admin`).
+- Registered Pharmacist reviews the pending order: original prescription image on left, Gemini OCR entities on right.
+- Pharmacist inputs verification note and clicks "Approve & Authorize Dispense".
+
+Step 6: Delivery Partner Dispatch & Progress Tracking
+- Switch to Delivery Partner Portal (`/delivery`).
+- Rider sees the top Emergency order.
+- Rider clicks "Picked Up from Pharmacy" -> "Out for Delivery" -> "Mark as Delivered ✓".
+
+Step 7: Real-Time Customer GPS Radar
+- Return to Customer `/orders` screen.
+- Notice the GPS route radar and 6-stage timeline update in real time without refreshing!
+
+Step 8: 24/7 MediBot Consultation
+- User clicks floating "Ask MediBot AI" icon.
+- User asks: "I have mild acidity after spicy food, what can I take?".
+- MediBot recommends Digene / Pan-40 OTC relief with mandatory clinical disclaimers.
+
+
+================================================================================
+6. HUMAN-IN-THE-LOOP COMPLIANCE & SAFETY SAFEGUARDS
+================================================================================
+Crucial Differentiator for SIH & Legal Drug Regulatory Compliance:
+- AI is strictly a decision-support and OCR extraction accelerator.
+- AI NEVER automatically dispenses Schedule H antibiotics or prescription drugs.
+- A licensed, registered pharmacist must visually review the prescription and click 
+  "Approve" in the Pharmacy Admin portal before any rider is dispatched.
+
+
+================================================================================
+7. ACCESSIBILITY & UI/UX FEATURES
+================================================================================
+- Pure White Background (`#ffffff`) for clean, clinical readability.
+- Light Apple Green Tiles (`#f0fdf4`) with emerald borders for high visual appeal.
+- Web Speech API voice search (Hindi & English).
+- Large Font Toggle (`A+ Font`) with global 1.2x–1.4x scaling for elderly patients.
+- Mobile Responsive layouts across all screen resolutions.
+
+
+================================================================================
+8. DATABASE ARCHITECTURE (SUPABASE SCHEMA)
+================================================================================
+The project includes `supabase_schema.sql` defining:
+1. `users` (id, name, phone, age, addresses jsonb, active_medications, role).
+2. `medicines` (id, name, brand_name, salt_composition, price, mrp, requires_prescription, stock_qty, pharmacy_id).
+3. `pharmacies` (id, name, license_no, address, lat, lng, contact, rating).
+4. `orders` (id, user_id, items jsonb, total_amount, delivery_fee, status, delivery_type, ai_extracted_data, assigned_pharmacy_id, assigned_delivery_partner_id).
+5. `prescriptions` (id, order_id, image_url, doctor_name, extracted_medicines jsonb, verification_status).
+6. `refill_reminders` (id, user_id, medicine_id, frequency_days, next_reminder_date, active).
+7. `chat_history` (id, user_id, messages jsonb).
+
+
+================================================================================
+9. HOW TO RUN & TEST LOCALLY
+================================================================================
+1. Start development server:
+   npm run dev
+
+2. Access the portals:
+   - Customer Portal: http://localhost:3000
+   - Orders Live Radar: http://localhost:3000/orders
+   - Delivery Partner App: http://localhost:3000/delivery
+   - Pharmacy Admin: http://localhost:3000/pharmacy-admin
+
+3. GitHub Repository:
+   https://github.com/arvind05kumar/MediT.git
+
+================================================================================
+                             END OF WORKFLOW DOCUMENT
+================================================================================
