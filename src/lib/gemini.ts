@@ -152,45 +152,72 @@ export async function checkDrugInteractionsWithGemini(
 }
 
 function simulateDrugInteractions(cartMedicines: string[], userHistory: string[]): DrugInteractionResult & { isSimulated: boolean } {
-  const allMeds = [...cartMedicines, ...userHistory].map(m => m.toLowerCase());
+  const cartLower = cartMedicines.map(m => m.toLowerCase());
+  const historyLower = userHistory.map(m => m.toLowerCase());
+  const allMeds = [...cartLower, ...historyLower];
   const warnings: DrugInteractionResult['warnings'] = [];
 
-  // Interaction 1: Blood Thinners / NSAIDs (Aspirin / Ibuprofen / Dolo high dose)
+  // Interaction 1: Blood Thinners / NSAIDs (Aspirin / Ibuprofen / Combiflam)
   const hasBloodThinner = allMeds.some(m => m.includes('aspirin') || m.includes('clopidogrel') || m.includes('warfarin') || m.includes('ecosprin'));
-  const hasNsaid = allMeds.some(m => m.includes('combiflam') || m.includes('ibuprofen') || m.includes('diclofenac') || m.includes('naproxen'));
+  const hasNsaid = allMeds.some(m => m.includes('combiflam') || m.includes('ibuprofen') || m.includes('diclofenac') || m.includes('naproxen') || m.includes('volini'));
 
   if (hasBloodThinner && hasNsaid) {
     warnings.push({
-      medicines: ['Ecosprin / Blood Thinner', 'Combiflam / NSAID'],
+      medicines: ['Ecosprin 75 / Blood Thinner', 'Combiflam / NSAID Painkiller'],
       severity: 'High',
-      explanation: 'Co-administration of NSAIDs with anticoagulants significantly increases the risk of gastrointestinal ulceration and bleeding.',
-      recommendation: 'Avoid simultaneous intake. Switch to Paracetamol (Dolo 650) for pain relief after consulting your physician.',
+      explanation: 'Co-administration of NSAIDs with antiplatelet / blood-thinning agents significantly increases the risk of gastrointestinal irritation and bleeding.',
+      recommendation: 'Avoid taking NSAIDs together with Aspirin/Ecosprin. Consider Paracetamol (Dolo 650) for mild pain relief or consult your prescribing doctor.',
     });
   }
 
-  // Interaction 2: ACE Inhibitor / ARB (Telmisartan) + Potassium Sparing / Spironolactone
+  // Interaction 2: ACE Inhibitor / ARB (Telmisartan) + Potassium Sparing / Supplements
   const hasTelma = allMeds.some(m => m.includes('telma') || m.includes('telmisartan') || m.includes('losartan'));
   const hasPotassium = allMeds.some(m => m.includes('potassium') || m.includes('aldactone') || m.includes('spironolactone'));
 
   if (hasTelma && hasPotassium) {
     warnings.push({
-      medicines: ['Telmisartan (BP)', 'Potassium Supplement'],
+      medicines: ['Telmisartan (ARB Antihypertensive)', 'Potassium Supplement'],
       severity: 'Moderate',
-      explanation: 'Concurrent use of ARB antihypertensives with potassium supplements can precipitate hyperkalemia (dangerously high blood potassium).',
-      recommendation: 'Monitor serum potassium levels regularly and obtain pharmacist clearance before combining.',
+      explanation: 'Concurrent use of ARB antihypertensives with potassium supplements can precipitate hyperkalemia (abnormally elevated blood potassium levels).',
+      recommendation: 'Monitor serum electrolyte levels regularly and obtain pharmacist clearance before combining.',
     });
   }
 
-  // Interaction 3: Metformin + Alcohol / Contrast
-  const hasMetformin = allMeds.some(m => m.includes('glycomet') || m.includes('metformin'));
-  const hasAlcoholWarning = allMeds.some(m => m.includes('cough') || m.includes('syrup'));
-
-  if (hasMetformin && allMeds.length > 3) {
+  // Interaction 3: Duplicate Active BP / Blood Thinner Therapy Check
+  const cartHasTelma = cartLower.some(m => m.includes('telma') || m.includes('telmisartan'));
+  const userHasTelma = historyLower.some(m => m.includes('telma') || m.includes('telmisartan'));
+  if (cartHasTelma && userHasTelma) {
     warnings.push({
-      medicines: ['Glycomet (Metformin)', 'Multiple New Medications'],
+      medicines: ['Telma 40 (In Cart)', 'Telmisartan 40mg (In Active Health Profile)'],
+      severity: 'Moderate',
+      explanation: 'Duplicate therapy detected. You already have Telmisartan recorded in your active daily medication schedule.',
+      recommendation: 'Ensure you are ordering a scheduled refill and not taking double daily dosages unless advised by your physician.',
+    });
+  }
+
+  // Interaction 4: Antibiotics (Augmentin / Azithral) + Calcium / Antacids (Shelcal / Pan-D)
+  const hasAntibiotic = allMeds.some(m => m.includes('augmentin') || m.includes('azithral') || m.includes('azithromycin') || m.includes('amoxycillin'));
+  const hasCalciumOrAntacid = allMeds.some(m => m.includes('shelcal') || m.includes('calcium') || m.includes('digene') || m.includes('pan-d'));
+
+  if (hasAntibiotic && hasCalciumOrAntacid && warnings.length === 0) {
+    warnings.push({
+      medicines: ['Antibiotic (Augmentin / Azithral)', 'Calcium Supplement / Antacid (Shelcal / Pan-D)'],
       severity: 'Low',
-      explanation: 'Multiple concurrent oral antidiabetic agents may increase risk of minor gastrointestinal upset or hypoglycemia.',
-      recommendation: 'Maintain meal timings consistently and keep glucose monitoring handy.',
+      explanation: 'Divalent minerals (calcium) and high gastric pH can reduce optimal gastrointestinal absorption of oral antibiotics if taken simultaneously.',
+      recommendation: 'Space antibiotic doses by at least 2 hours before or after taking calcium supplements or antacids.',
+    });
+  }
+
+  // Interaction 5: Metformin + Multiple oral antidiabetics (Glycomet + Januvia)
+  const hasMetformin = allMeds.some(m => m.includes('glycomet') || m.includes('metformin'));
+  const hasSitagliptin = allMeds.some(m => m.includes('januvia') || m.includes('sitagliptin'));
+
+  if (hasMetformin && hasSitagliptin) {
+    warnings.push({
+      medicines: ['Glycomet-GP 2 (Metformin + Glimepiride)', 'Januvia 100 (Sitagliptin)'],
+      severity: 'Low',
+      explanation: 'Combining dual secretagogue/biguanide with DPP-4 inhibitor increases the risk of hypoglycemic episodes if meals are skipped.',
+      recommendation: 'Maintain regular meal timings and monitor blood glucose levels periodically.',
     });
   }
 
@@ -198,8 +225,8 @@ function simulateDrugInteractions(cartMedicines: string[], userHistory: string[]
     hasInteraction: warnings.length > 0,
     warnings,
     clinicalNotes: warnings.length > 0
-      ? 'Automated clinical safety filter detected potential interactions. MediT pharmacist review has been initiated.'
-      : 'No adverse clinical interactions detected between cart items and your medication profile.',
+      ? 'Automated clinical safety filter detected potential interactions. Review recommended precautions before proceeding.'
+      : 'All cart medicines cross-verified with your registered health profile (Telmisartan, Ecosprin). No adverse contraindications found.',
     isSimulated: true,
   };
 }

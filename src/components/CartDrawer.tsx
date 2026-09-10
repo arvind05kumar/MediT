@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import confetti from 'canvas-confetti';
 import { CartItem, DrugInteractionResult, GenericSuggestionResult, Order, PrescriptionData } from '@/types';
-import { MediTStore } from '@/lib/store';
+import { MediTStore, subscribeToStore } from '@/lib/store';
 import {
   X,
   Trash2,
@@ -53,47 +53,63 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const user = MediTStore.getUser();
   const pharmacies = MediTStore.getPharmacies();
 
+  // Synchronize cart with MediTStore using event listener (avoids rapid polling & re-render churn)
   useEffect(() => {
+    if (!isOpen) return;
     setCart(MediTStore.getCart());
-    const interval = setInterval(() => {
+
+    const unsubscribe = subscribeToStore(() => {
       setCart(MediTStore.getCart());
-    }, 500);
-    return () => clearInterval(interval);
+    });
+    return () => {
+      unsubscribe();
+    };
   }, [isOpen]);
 
-  // Run AI Drug Interaction Check whenever cart items change
+  // Stable dependency keys to prevent re-triggering AI interaction check on unrelated re-renders
+  const medicineNames = cart.map((i) => i.medicine.name);
+  const cartKey = medicineNames.join('||');
+  const userMedsKey = (user?.activeMedications || []).join('||');
+
+  // Run AI Drug Interaction Check whenever cart medicines or user profile change
   useEffect(() => {
     if (!isOpen || cart.length === 0) {
       setInteractionResult(null);
+      setIsCheckingInteractions(false);
       return;
     }
 
-    const runInteractionCheck = async () => {
-      setIsCheckingInteractions(true);
+    let isCancelled = false;
+    setIsCheckingInteractions(true);
+
+    const timer = setTimeout(async () => {
       try {
-        const medicineNames = cart.map((i) => i.medicine.name);
         const res = await fetch('/api/ai/check-interactions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             cartMedicines: medicineNames,
-            userHistory: user.activeMedications,
+            userHistory: user?.activeMedications || [],
           }),
         });
         const data = await res.json();
-        if (res.ok && data.data) {
+        if (!isCancelled && res.ok && data.data) {
           setInteractionResult(data.data);
         }
       } catch (err) {
         console.warn('Drug interaction check error', err);
       } finally {
-        setIsCheckingInteractions(false);
+        if (!isCancelled) {
+          setIsCheckingInteractions(false);
+        }
       }
-    };
+    }, 250);
 
-    const timeout = setTimeout(runInteractionCheck, 400);
-    return () => clearTimeout(timeout);
-  }, [cart, isOpen, user.activeMedications]);
+    return () => {
+      isCancelled = true;
+      clearTimeout(timer);
+    };
+  }, [cartKey, userMedsKey, isOpen]);
 
   if (!isOpen) return null;
 
@@ -253,41 +269,65 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <>
                   {/* AI Drug Interaction Safeguard Banner */}
                   {isCheckingInteractions ? (
-                    <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs flex items-center gap-2 text-slate-600 dark:text-slate-300 animate-pulse">
-                      <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
-                      <span>Gemini AI cross-verifying drug contraindications with your health profile...</span>
+                    <div className="p-3 rounded-2xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs flex items-center gap-3 text-slate-700 dark:text-slate-300 animate-pulse shadow-sm">
+                      <div className="w-7 h-7 rounded-xl bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
+                        <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-bold text-slate-800 dark:text-slate-200">Gemini AI Safety Verification</p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          Cross-verifying contraindications with your health profile...
+                        </p>
+                      </div>
                     </div>
                   ) : interactionResult?.hasInteraction ? (
-                    <div className="p-3.5 rounded-2xl bg-red-50 dark:bg-red-950/40 border-2 border-red-300 dark:border-red-900 text-xs space-y-2 animate-in fade-in">
-                      <div className="flex items-center gap-2 text-red-700 dark:text-red-400 font-bold">
-                        <AlertTriangle className="w-4 h-4 shrink-0" />
-                        <span>AI Drug Interaction Safeguard Alert</span>
+                    <div className="p-3.5 rounded-2xl bg-red-50 dark:bg-red-950/40 border-2 border-red-300 dark:border-red-900 text-xs space-y-2.5 animate-in fade-in duration-200 shadow-sm">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-red-700 dark:text-red-400 font-bold">
+                          <AlertTriangle className="w-4 h-4 shrink-0" />
+                          <span>AI Drug Interaction Safeguard Alert</span>
+                        </div>
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/80 text-red-700 dark:text-red-300">
+                          Contraindication Found
+                        </span>
                       </div>
                       {interactionResult.warnings.map((w, idx) => (
-                        <div key={idx} className="bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-xl border border-red-200 dark:border-red-900/60">
-                          <div className="flex items-center justify-between">
-                            <span className="font-semibold text-slate-800 dark:text-slate-200">
+                        <div key={idx} className="bg-white/90 dark:bg-slate-900/90 p-3 rounded-xl border border-red-200 dark:border-red-900/60 space-y-1.5 shadow-xs">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-bold text-slate-900 dark:text-slate-100 text-xs">
                               {w.medicines.join(' ↔ ')}
                             </span>
-                            <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300">
+                            <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 shrink-0">
                               {w.severity} Risk
                             </span>
                           </div>
-                          <p className="text-slate-600 dark:text-slate-300 text-[11px] mt-1">
+                          <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
                             {w.explanation}
                           </p>
-                          <p className="text-emerald-700 dark:text-emerald-400 text-[11px] font-medium mt-1">
-                            💡 Recommendation: {w.recommendation}
+                          <p className="text-emerald-700 dark:text-emerald-400 text-[11px] font-medium pt-0.5">
+                            💡 <strong className="font-semibold">Recommendation:</strong> {w.recommendation}
                           </p>
                         </div>
                       ))}
+                      {interactionResult.clinicalNotes && (
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 italic">
+                          {interactionResult.clinicalNotes}
+                        </p>
+                      )}
                     </div>
-                  ) : (
-                    <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>AI Safety Check Passed: No adverse drug contraindications detected.</span>
+                  ) : interactionResult ? (
+                    <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-200 flex items-start gap-2.5 animate-in fade-in duration-200 shadow-sm">
+                      <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shrink-0 mt-0.5">
+                        <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-bold text-emerald-950 dark:text-emerald-200">AI Safety Check Passed</p>
+                        <p className="text-[11px] text-emerald-700 dark:text-emerald-400 mt-0.5">
+                          {interactionResult.clinicalNotes || 'No adverse drug contraindications detected with your health profile.'}
+                        </p>
+                      </div>
                     </div>
-                  )}
+                  ) : null}
 
                   {/* Cart Items List */}
                   <div className="space-y-3">
